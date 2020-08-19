@@ -35,7 +35,7 @@ Money& Money::operator-=(const Money& money)
 {
 	if (this != &money) {
 		if (Check_currency(*this, money) &&
-			Check_amount(money._amount))
+			Check_amount(_amount, money._amount))
 			_amount -= money._amount;
 	}
 
@@ -44,7 +44,7 @@ Money& Money::operator-=(const Money& money)
 
 Money& Money::operator-=(const double& money)
 {
-	if (Check_amount(money))
+	if (Check_amount(_amount, money))
 		_amount -= money;
 }
 
@@ -72,20 +72,20 @@ Money operator+(const double& lhs, const Money& rhs)
 Money operator-(const Money& lhs, const Money& rhs)
 {
 	Money ret = lhs;
-	ret -= rhs;
+	minusHelper(ret, lhs.Amount(), rhs.Amount());
 	return ret;
 }
 Money operator-(const Money& lhs, const double& rhs)
 {
 	Money ret = lhs;
-	ret -= rhs;
+	minusHelper(ret, lhs.Amount(), rhs);
 	return ret;
 }
 Money operator-(const double& lhs, const Money& rhs)
 {
 	Money ret = rhs;
 	ret.Copy(lhs);
-	ret -= rhs.Amount();
+	minusHelper(ret, lhs, rhs.Amount());
 	return ret;
 }
 
@@ -200,4 +200,18 @@ bool operator<= (const double& lhs, const Money& rhs)
 bool Check_currency(const Money& lhs, const Money& rhs)
 {
 	return lhs.Currency() != rhs.Currency();
+}
+
+bool Check_amount(const double& lhs, const double& rhs)
+{
+	return lhs >= rhs;
+}
+
+void minusHelper(Money& ret, const double& lhs, const double& rhs)
+{
+	if (Check_amount(lhs, rhs)) {
+		ret -= rhs;
+	} else {
+		ret.Copy(0.0);
+	}
 }

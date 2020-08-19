@@ -68,10 +68,17 @@ int main()
 	}
 	// operator+
 	{
-		cout << boolalpha;
 		cout << "\n*** operator+ test ***\n";
 		cout << "k1 + k2 -> " << k1 + k2 << endl;
 		cout << "k1 + c2 -> " << k1 + c2 << endl;
+		cout << "u1 + c2 -> " << u1 + c2 << endl; // this will return u1. due to u1 - c2 < 0
+		cout << "c2 + u1 -> " << c2 + u1 << endl;
+	}
+	// operator-
+	{
+		cout << "\n*** operator- test ***\n";
+		cout << "k1 - k2 -> " << k1 - k2 << endl;
+		cout << "k1 - c2 -> " << k1 - c2 << endl;
 		cout << "u1 - c2 -> " << u1 - c2 << endl; // this will return u1. due to u1 - c2 < 0
 		cout << "c2 - u1 -> " << c2 - u1 << endl;
 	}
