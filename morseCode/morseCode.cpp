@@ -8,7 +8,7 @@ std::string output = "";
 
 const char delbuf[] = "\b";
 
-// morse -> eng
+// eng -> morse
 void MakeRes(char c, std::string cc)
 {
 	std::string t = cc + ' ';
@@ -18,7 +18,7 @@ void MakeRes(char c, std::string cc)
 	printRes(input, output);
 }
 
-// eng -> morse
+// morse -> eng
 void MakeRes(std::string c, char cc)
 {
 	std::string t(1, cc);
@@ -56,32 +56,35 @@ void eraseEnglishToMorse()
 void eraseMToE(std::string& word)
 {
 	if (word.empty()){
-		if (input.empty()) { // 
+		if (input.empty()) { // this also works same for output
 			return;
 		}
 		else {
 			// erase one character from input
 			if (input.back() == ' ')
-				input = std::string(input.begin(), input.end() - 2);
-			else 
 				input = std::string(input.begin(), input.end() - 1);
 
-			int it = std::count(input.begin(), input.end(), ' ');
-			int ot = static_cast<int>(output.size());
-
-			if (ot > it) {
-				// get one char from output and find morse then insert to input
-				char c = output.back();
+			if (output.size() != 1)
 				output = std::string(output.begin(), output.end() - 1);
-				auto pos = code1.find(c);
-				word = pos->second;
+			else
+				output = "";
+
+			auto p = input.end() - 1;
+			while (p != input.begin() && !isspace(*p)) {
+				--p;
+			}
+
+			if (p == input.begin())  {
+				word = input;
+				input = "";
+			}
+			else  {
+				word = std::string (p + 1, input.end());
+				input = std::string(input.begin(), p);
 			}
 		}
 	}
 	else {
-		if (!input.empty()) {
-			input = std::string(input.begin(), input.end() - 1);
-		}
 		word = std::string(word.begin(), word.end() - 1);
 	}
 }
@@ -102,14 +105,16 @@ void morseToEnglish(char t)
 		}
 		else if (c == 127) {
 			eraseMToE(word);			
-			printRes(input, output);
-
-			auto s = code2[word];
-			std::cout << s;
 		} 
 		else {
 			word += c;
 		}
+			std::string temp(input);
+			temp += ' ';
+			temp += word;
+			printRes(temp, output);
+			auto s = code2[word];
+			std::cout << s;
 	} while ((c = _getch()));
 }
 
