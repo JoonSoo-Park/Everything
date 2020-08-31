@@ -5,21 +5,23 @@
 
 class DerivedM2E : public Base{
 public:
-	explicit DerivedM2E(char c);
+	explicit DerivedM2E(const char c);
 	~DerivedM2E();
 	DerivedM2E(const DerivedM2E&) = delete;
 	DerivedM2E& operator=(const DerivedM2E&) = delete;
 
-	bool translate(char) override;
+	bool translate(const char) override;
 private:
 	std::string _input;
 	std::string _output;
 	std::string _word;
 
-	void erase();
-	void print(std::string&, char);
+	void erase() override;
+	void eraseInput();
+	void eraseOutput();
 	void printRes();
-	void makeRes(char);
+	void print(std::string&, const char);
+	void makeRes(const char);
 };
 
 #endif

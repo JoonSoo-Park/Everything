@@ -2,8 +2,6 @@
 #include "./DerivedE2M.h"
 #include "./Code.h"
 
-using std::string;
-
 DerivedE2M::DerivedE2M(char c) :
 	_input(), _output() 
 {
@@ -15,14 +13,14 @@ DerivedE2M::~DerivedE2M()
 	//std::cout << "Derived English -> Morse Destructor\n";
 }
 
-bool DerivedE2M::translate(char ch) 
+bool DerivedE2M::translate(const char ch) 
 {
 	if (ch == 127) {
 		erase();
 		print();
 	}
 	else {
-		auto pos = code1.find(ch);
+		const auto pos = code1.find(ch);
 		if (pos != code1.end()) {
 			makeRes(ch, pos->second);
 		}
@@ -33,8 +31,17 @@ bool DerivedE2M::translate(char ch)
 
 void DerivedE2M::erase()
 {
-	_input = std::string(_input.begin(), _input.end() - 1);
+	eraseInput();
+	eraseOutput();
+}
 
+void DerivedE2M::eraseInput()
+{
+	_input = std::string(_input.begin(), _input.end() - 1);
+}
+
+void DerivedE2M::eraseOutput()
+{
 	auto pos = _output.end();
 	int ct = 0;
 	do {
@@ -60,9 +67,9 @@ void DerivedE2M::print() const
 	cout << _output << '\n';
 }
 
-void DerivedE2M::makeRes(char ch, string s)
+void DerivedE2M::makeRes(const char ch, const std::string& s)
 {
-	string t = s + ' ';
+	std::string t = s + ' ';
 	_input += ch;
 	_output += t;
 
