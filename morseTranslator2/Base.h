@@ -4,9 +4,10 @@
 class Base {
 public:
 	virtual ~Base() {};
-	virtual bool translate(char) = 0;
-	Base(const Base&) = delete;
+	virtual bool translate(const char) = 0;
 	Base& operator=(const Base&) = delete;
+private:
+	virtual void erase() = 0;
 };
 
 #endif
